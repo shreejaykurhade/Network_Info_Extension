@@ -1,118 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+ const TEST_DURATION = 10000;
+const SAMPLE_INTERVAL = 1000;
+const TEST_FILE_URL = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg";
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <title>Live Network Speed Checker</title>
-
-  <style>
-    .wrapper {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #e3f2fd);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .card {
-      background: #ffffff;
-      padding: 32px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      max-width: 450px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-    }
-
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: #0d47a1;
-    }
-
-    .progress-container {
-      width: 100%;
-      height: 20px;
-      background-color: #e0e0e0;
-      border-radius: 10px;
-      overflow: hidden;
-      margin: 20px 0;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 30%;
-      background: linear-gradient(90deg, #42a5f5, #7e57c2);
-      border-radius: 10px;
-      animation: moveBar 2s ease-in-out infinite alternate;
-    }
-
-    @keyframes moveBar {
-      0% {
-        margin-left: 0%;
-        width: 30%;
-      }
-      100% {
-        margin-left: 70%;
-        width: 30%;
-      }
-    }
-
-    .live-value {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      font-weight: 600;
-    }
-
-    .result, .extra-info {
-      text-align: left;
-      margin-top: 24px;
-    }
-
-    .result p, .extra-info p {
-      margin: 6px 0;
-      font-size: 0.95rem;
-    }
-
-    .label {
-      font-weight: 600;
-      color: #1a237e;
-    }
-
-  </style>
-</head>
-
-<body>
-
-  <div class="wrapper">
-        <div class="card">
-            <h1>Live Network Speed Checker</h1>
-             <div class="progress-container">
-             <div class="progress-bar"></div>
-             </div>
-
-            <div class="live-value" id="liveSpeed">Speed: 0 Mbps</div>
-            <div id="result" class="result">Testing your speed...</div>
-            <div class="extra-info" id="extraInfo"></div>
-        </div>
-    </div>
-
-</body>
-
-<script>
-    const TEST_DURATION = 10000;
-    const SAMPLE_INTERVAL = 1000;
-    const TEST_FILE_URL = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg";
-
-    const liveSpeed = document.getElementById("liveSpeed");
-    const resultEl = document.getElementById("result");
-    const extraInfo = document.getElementById("extraInfo");
+const liveSpeed = document.getElementById("liveSpeed");
+const resultEl = document.getElementById("result");
+const extraInfo = document.getElementById("extraInfo");
 
     async function runSpeedSample() {
       try {
@@ -214,5 +106,3 @@
     }
 
     measureLiveSpeed();
-  </script>
-</html>

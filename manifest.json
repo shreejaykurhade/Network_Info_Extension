@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Live Network Speed Checker",
+  "version": "1.0",
+  "description": "Check your internet speed, IP info, and network stats live.",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ]
+}
