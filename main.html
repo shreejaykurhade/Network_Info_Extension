@@ -6,80 +6,92 @@
   <title>Live Network Speed Checker</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background-color: #f8fafc;
       margin: 0;
-      padding: 16px;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #e3f2fd);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
+
     .card {
-      background: white;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      max-width: 420px;
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      max-width: 450px;
       width: 100%;
       text-align: center;
-    }
-    .meter {
       position: relative;
-      width: 200px;
-      height: 100px;
-      background: conic-gradient(#e5e7eb 0 180deg);
-      border-top-left-radius: 100px;
-      border-top-right-radius: 100px;
-      margin: 20px auto;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #0d47a1;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 20px;
+      background-color: #e0e0e0;
+      border-radius: 10px;
       overflow: hidden;
+      margin: 20px 0;
     }
-    .needle {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 4px;
-      height: 90px;
-      background: red;
-      transform-origin: bottom center;
-      transform: rotate(0deg);
-      transition: transform 0.2s linear;
+
+    .progress-bar {
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, #42a5f5, #7e57c2);
+      border-radius: 10px;
+      animation: moveBar 2s ease-in-out infinite alternate;
     }
-    .labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: -10px;
-      padding: 0 10px;
+
+    @keyframes moveBar {
+      0% {
+        margin-left: 0%;
+        width: 30%;
+      }
+      100% {
+        margin-left: 70%;
+        width: 30%;
+      }
     }
-    .info p {
-      margin: 8px 0;
-    }
+
     .live-value {
       font-size: 1.2rem;
-      font-weight: bold;
-      margin: 10px;
+      margin-top: 10px;
+      font-weight: 600;
     }
-    .extra-info {
-      margin-top: 20px;
+
+    .result, .extra-info {
       text-align: left;
+      margin-top: 24px;
     }
-    .extra-info p {
-      margin: 4px 0;
+
+    .result p, .extra-info p {
+      margin: 6px 0;
+      font-size: 0.95rem;
     }
+
+    .label {
+      font-weight: 600;
+      color: #1a237e;
+    }
+
   </style>
 </head>
 <body>
   <div class="card">
     <h1>Live Network Speed Checker</h1>
-    <div class="meter">
-      <div class="needle" id="speedNeedle"></div>
-    </div>
-    <div class="labels">
-      <span>0</span><span>50</span><span>100+</span>
+    <div class="progress-container">
+      <div class="progress-bar"></div>
     </div>
     <div class="live-value" id="liveSpeed">Speed: 0 Mbps</div>
-    <div id="result" class="loading">Testing your speed...</div>
+    <div id="result" class="result">Testing your speed...</div>
     <div class="extra-info" id="extraInfo"></div>
   </div>
 
@@ -88,22 +100,14 @@
     const SAMPLE_INTERVAL = 1000;
     const TEST_FILE_URL = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg";
 
-    const needle = document.getElementById("speedNeedle");
     const liveSpeed = document.getElementById("liveSpeed");
+    const resultEl = document.getElementById("result");
     const extraInfo = document.getElementById("extraInfo");
-
-    function updateNeedle(speed) {
-      const limitedSpeed = Math.min(speed, 100);
-      const angle = (limitedSpeed / 100) * 180 - 90;
-      needle.style.transform = `rotate(${angle}deg)`;
-      liveSpeed.textContent = `Speed: ${speed.toFixed(2)} Mbps`;
-    }
 
     async function runSpeedSample() {
       try {
         const controller = new AbortController();
-        const signal = controller.signal;
-        const response = await fetch(TEST_FILE_URL + '?cache=' + Math.random(), { signal });
+        const response = await fetch(TEST_FILE_URL + '?cache=' + Math.random(), { signal: controller.signal });
         const reader = response.body.getReader();
         let received = 0;
         const start = performance.now();
@@ -116,8 +120,7 @@
 
         const end = performance.now();
         const duration = (end - start) / 1000;
-        const bits = received * 8;
-        return bits / duration / 1024 / 1024; // Mbps
+        return (received * 8) / duration / 1024 / 1024; // Mbps
       } catch {
         return 0;
       }
@@ -134,9 +137,19 @@
       }
     }
 
-    async function getIP() {
+    async function getIPv4() {
       try {
         const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        return data.ip;
+      } catch {
+        return "N/A";
+      }
+    }
+
+    async function getIPv6() {
+      try {
+        const res = await fetch("https://api64.ipify.org?format=json");
         const data = await res.json();
         return data.ip;
       } catch {
@@ -154,16 +167,13 @@
     }
 
     async function measureLiveSpeed() {
-      const resultEl = document.getElementById("result");
-      resultEl.textContent = "Testing your speed...";
-
       let speeds = [];
       const startTime = Date.now();
 
       while (Date.now() - startTime < TEST_DURATION) {
         const speed = await runSpeedSample();
         speeds.push(speed);
-        updateNeedle(speed);
+        liveSpeed.textContent = `Speed: ${speed.toFixed(2)} Mbps`;
         await new Promise(r => setTimeout(r, SAMPLE_INTERVAL));
       }
 
@@ -174,22 +184,23 @@
 
       const avgSpeed = (speeds.reduce((a, b) => a + b, 0) / speeds.length).toFixed(2);
       const ping = await getPing();
-      const ip = await getIP();
+      const ipv4 = await getIPv4();
+      const ipv6 = await getIPv6();
       const ipInfo = await getIPInfo();
 
-      resultEl.classList.remove("loading");
-      resultEl.classList.add("info");
       resultEl.innerHTML = `
-        <p><strong>Average Download Speed:</strong> ${avgSpeed} Mbps</p>
-        <p><strong>Ping:</strong> ${ping} ms</p>
-        <p><strong>Your IP:</strong> ${ip}</p>
-        <p><strong>Your ISP:</strong> ${ipInfo.org}</p>
-        <p><strong>City:</strong> ${ipInfo.city}</p>
-        <p><strong>Region:</strong> ${ipInfo.region}</p>
-        <p><strong>Country:</strong> ${ipInfo.country_name}</p>
+        <p><span class="label">Average Download Speed:</span> ${avgSpeed} Mbps</p>
+        <p><span class="label">Ping:</span> ${ping} ms</p>
+        <p><span class="label">Your IP (IPv4):</span> ${ipv4}</p>
+        <p><span class="label">Your IP (IPv6):</span> ${ipv6}</p>
+        <p><span class="label">Your ISP:</span> ${ipInfo.org}</p>
       `;
 
-
+      extraInfo.innerHTML = `
+        <p><span class="label">City:</span> ${ipInfo.city}</p>
+        <p><span class="label">Region:</span> ${ipInfo.region}</p>
+        <p><span class="label">Country:</span> ${ipInfo.country_name}</p>
+      `;
     }
 
     measureLiveSpeed();
