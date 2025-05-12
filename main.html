@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>Live Network Speed Checker</title>
+
   <style>
     body {
       margin: 0;
@@ -84,18 +87,25 @@
 
   </style>
 </head>
-<body>
-  <div class="card">
-    <h1>Live Network Speed Checker</h1>
-    <div class="progress-container">
-      <div class="progress-bar"></div>
-    </div>
-    <div class="live-value" id="liveSpeed">Speed: 0 Mbps</div>
-    <div id="result" class="result">Testing your speed...</div>
-    <div class="extra-info" id="extraInfo"></div>
-  </div>
 
-  <script>
+<body>
+
+  <div class="wrapper">
+        <div class="card">
+            <h1>Live Network Speed Checker</h1>
+             <div class="progress-container">
+             <div class="progress-bar"></div>
+             </div>
+
+            <div class="live-value" id="liveSpeed">Speed: 0 Mbps</div>
+            <div id="result" class="result">Testing your speed...</div>
+            <div class="extra-info" id="extraInfo"></div>
+        </div>
+    </div>
+    
+</body>
+
+<script>
     const TEST_DURATION = 10000;
     const SAMPLE_INTERVAL = 1000;
     const TEST_FILE_URL = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg";
@@ -205,5 +215,4 @@
 
     measureLiveSpeed();
   </script>
-</body>
 </html>
