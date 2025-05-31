@@ -1,6 +1,6 @@
 # Speed Checker
 
-![GitHub license]
+[![GitHub license]
 (https://img.shields.io/badge/license-MIT-blue.svg)([https://github.com/shreejaykurhade/Network_Info_Extension](https://github.com/shreejaykurhade/Network_Info_Extension/blob/main/LICENSE)
 
 
