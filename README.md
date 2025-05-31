@@ -11,7 +11,6 @@ A simple and elegant browser extension to check your internet download speed, pi
 
 -   [Features](#features)
 -   [Installation](#installation)
-    -   [Via Chrome Web Store ](#via-chrome-web-store-coming-soon)
     -   [Loading Unpacked Extension](#loading-unpacked-extension)
 -   [Usage](#usage)
 -   [How it Works](#how-it-works)
@@ -32,10 +31,6 @@ A simple and elegant browser extension to check your internet download speed, pi
 ## Installation
 
 You can install the Speed Checker extension by loading it as an unpacked extension in your browser. Future plans include publishing it to the Chrome Web Store for easier installation.
-
-### Via Chrome Web Store (Coming Soon)
-
-Once published, you'll be able to install the extension directly from the Chrome Web Store. A link will be provided here.
 
 ### Loading Unpacked Extension
 
