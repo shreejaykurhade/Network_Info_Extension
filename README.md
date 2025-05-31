@@ -1,6 +1,6 @@
 # Speed Checker
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)]([https://github.com/your-username/speed-checker](https://github.com/shreejaykurhade/Network_Info_Extension/blob/main/LICENSE)
+![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)([https://github.com/shreejaykurhade/Network_Info_Extension](https://github.com/shreejaykurhade/Network_Info_Extension/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/shreejaykurhade/Network_Info_Extension.svg?style=social)](https://github.com/shreejaykurhade/Network_Info_Extension/stargazers)
 
 A simple and elegant browser extension to check your internet download speed, ping, and display detailed IP information.
