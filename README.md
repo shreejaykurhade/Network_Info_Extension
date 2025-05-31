@@ -11,7 +11,7 @@ A simple and elegant browser extension to check your internet download speed, pi
 
 -   [Features](#features)
 -   [Installation](#installation)
-    -   [Via Chrome Web Store (Coming Soon)](#via-chrome-web-store-coming-soon)
+    -   [Via Chrome Web Store ](#via-chrome-web-store-coming-soon)
     -   [Loading Unpacked Extension](#loading-unpacked-extension)
 -   [Usage](#usage)
 -   [How it Works](#how-it-works)
